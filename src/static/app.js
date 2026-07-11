@@ -297,10 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const startTime = formatTime(details.schedule_details.start_time);
       const endTime = formatTime(details.schedule_details.end_time);
 
-      if (
-        details.schedule_details.start_time === details.schedule_details.end_time &&
-        details.schedule
-      ) {
+      if (details.schedule && !details.schedule.includes(" - ")) {
         return details.schedule;
       }
 

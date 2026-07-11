@@ -19,7 +19,7 @@ class InitialActivitiesTest(unittest.TestCase):
             {
                 "days": ["Tuesday"],
                 "start_time": "19:00",
-                "end_time": "19:00",
+                "end_time": "20:00",
             },
         )
         self.assertEqual(manga_maniacs["max_participants"], 15)
