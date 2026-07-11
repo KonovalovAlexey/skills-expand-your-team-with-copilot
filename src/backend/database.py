@@ -123,10 +123,12 @@ initial_activities = {
     "Manga Maniacs": {
         "description": "Explore the fantastic stories of the most interesting characters from Japanese Manga (graphic novels).",
         "schedule": "Tuesdays at 7:00 PM",
+        # Store a one-hour slot for filtering while preserving the requested display text.
         "schedule_details": {
             "days": ["Tuesday"],
             "start_time": "19:00",
-            "end_time": "20:00"
+            "end_time": "20:00",
+            "use_custom_schedule_text": True
         },
         "max_participants": 15,
         "participants": []
