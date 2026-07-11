@@ -505,6 +505,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
+    const pageUrl = window.location.href.split("#")[0];
+    const shareText = `Join me in checking out ${name} at Mergington High School! ${formattedSchedule}.`;
+    const encodedPageUrl = encodeURIComponent(pageUrl);
+    const encodedShareText = encodeURIComponent(shareText);
+    const xShareUrl = `https://twitter.com/intent/tweet?text=${encodedShareText}&url=${encodedPageUrl}`;
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedPageUrl}&quote=${encodedShareText}`;
+    const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(
+      `${shareText} ${pageUrl}`
+    )}`;
+    const canUseNativeShare = typeof navigator.share === "function";
 
     // Create activity tag
     const tagHtml = `
@@ -576,6 +586,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="social-share-actions">
+        <span class="share-label">Share:</span>
+        ${
+          canUseNativeShare
+            ? `<button class="share-button native-share-button" data-activity="${name}">Quick Share</button>`
+            : ""
+        }
+        <a class="share-button share-link" href="${xShareUrl}" target="_blank" rel="noopener noreferrer">X</a>
+        <a class="share-button share-link" href="${facebookShareUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="share-button share-link" href="${whatsappShareUrl}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -592,6 +613,23 @@ document.addEventListener("DOMContentLoaded", () => {
           openRegistrationModal(name);
         });
       }
+    }
+
+    const nativeShareButton = activityCard.querySelector(".native-share-button");
+    if (nativeShareButton) {
+      nativeShareButton.addEventListener("click", async () => {
+        try {
+          await navigator.share({
+            title: `${name} at Mergington High School`,
+            text: shareText,
+            url: pageUrl,
+          });
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            showMessage("Unable to open device share menu.", "error");
+          }
+        }
+      });
     }
 
     activitiesList.appendChild(activityCard);
