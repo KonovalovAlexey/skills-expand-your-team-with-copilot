@@ -26,6 +26,12 @@ class InitialActivitiesTest(unittest.TestCase):
         self.assertEqual(manga_maniacs["max_participants"], 15)
         self.assertEqual(manga_maniacs["participants"], [])
 
+    def test_seeded_activities_include_supported_difficulty_levels(self):
+        self.assertEqual(initial_activities["Programming Class"]["difficulty"], "Beginner")
+        self.assertEqual(initial_activities["Chess Club"]["difficulty"], "Intermediate")
+        self.assertEqual(initial_activities["Math Club"]["difficulty"], "Advanced")
+        self.assertNotIn("difficulty", initial_activities["Manga Maniacs"])
+
 
 if __name__ == "__main__":
     unittest.main()

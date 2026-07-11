@@ -35,6 +35,7 @@ initial_activities = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
         "schedule": "Mondays and Fridays, 3:15 PM - 4:45 PM",
+        "difficulty": "Intermediate",
         "schedule_details": {
             "days": ["Monday", "Friday"],
             "start_time": "15:15",
@@ -46,6 +47,7 @@ initial_activities = {
     "Programming Class": {
         "description": "Learn programming fundamentals and build software projects",
         "schedule": "Tuesdays and Thursdays, 7:00 AM - 8:00 AM",
+        "difficulty": "Beginner",
         "schedule_details": {
             "days": ["Tuesday", "Thursday"],
             "start_time": "07:00",
@@ -68,6 +70,7 @@ initial_activities = {
     "Soccer Team": {
         "description": "Join the school soccer team and compete in matches",
         "schedule": "Tuesdays and Thursdays, 3:30 PM - 5:30 PM",
+        "difficulty": "Intermediate",
         "schedule_details": {
             "days": ["Tuesday", "Thursday"],
             "start_time": "15:30",
@@ -90,6 +93,7 @@ initial_activities = {
     "Art Club": {
         "description": "Explore various art techniques and create masterpieces",
         "schedule": "Thursdays, 3:15 PM - 5:00 PM",
+        "difficulty": "Beginner",
         "schedule_details": {
             "days": ["Thursday"],
             "start_time": "15:15",
@@ -112,6 +116,7 @@ initial_activities = {
     "Math Club": {
         "description": "Solve challenging problems and prepare for math competitions",
         "schedule": "Tuesdays, 7:15 AM - 8:00 AM",
+        "difficulty": "Advanced",
         "schedule_details": {
             "days": ["Tuesday"],
             "start_time": "07:15",
@@ -158,6 +163,7 @@ initial_activities = {
     "Science Olympiad": {
         "description": "Weekend science competition preparation for regional and state events",
         "schedule": "Saturdays, 1:00 PM - 4:00 PM",
+        "difficulty": "Advanced",
         "schedule_details": {
             "days": ["Saturday"],
             "start_time": "13:00",
