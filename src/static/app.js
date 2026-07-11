@@ -25,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
+  const schoolName =
+    document.querySelector("header h1")?.textContent?.trim() ||
+    "our school";
 
   // Activity categories with corresponding colors
   const activityTypes = {
@@ -527,6 +530,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Format the schedule using the new helper function
     const formattedSchedule = formatSchedule(details);
+    const pageUrl = window.location.href.split("#")[0];
+    const shareText = `Join me in checking out ${name} at ${schoolName}! ${formattedSchedule}.`;
+    const encodedPageUrl = encodeURIComponent(pageUrl);
+    const encodedShareText = encodeURIComponent(shareText);
+    const xShareUrl = `https://x.com/intent/tweet?text=${encodedShareText}&url=${encodedPageUrl}`;
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedPageUrl}`;
+    const whatsappShareUrl = `https://wa.me/?text=${encodedShareText}%20${encodedPageUrl}`;
+    const canUseNativeShare = typeof navigator.share === "function";
 
     // Create activity tag
     const tagHtml = `
@@ -603,6 +614,17 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="social-share-actions">
+        <span class="share-label">Share:</span>
+        ${
+          canUseNativeShare
+            ? `<button class="share-button native-share-button" aria-label="Share activity using device share menu">Quick Share</button>`
+            : ""
+        }
+        <a class="share-button share-link" href="${xShareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share ${name} on X">X</a>
+        <a class="share-button share-link" href="${facebookShareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share ${name} on Facebook">Facebook</a>
+        <a class="share-button share-link" href="${whatsappShareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share ${name} on WhatsApp">WhatsApp</a>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -611,14 +633,30 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", handleUnregister);
     });
 
-    // Add click handler for register button (only when authenticated)
-    if (currentUser) {
-      const registerButton = activityCard.querySelector(".register-button");
-      if (!isFull) {
-        registerButton.addEventListener("click", () => {
-          openRegistrationModal(name);
-        });
-      }
+    // Add click handlers for action buttons
+    const registerButton = activityCard.querySelector(".register-button");
+    if (registerButton && !isFull) {
+      registerButton.addEventListener("click", () => {
+        openRegistrationModal(name);
+      });
+    }
+
+    const nativeShareButton = activityCard.querySelector(".native-share-button");
+    if (nativeShareButton) {
+      nativeShareButton.addEventListener("click", async () => {
+        try {
+          await navigator.share({
+            title: `${name} at ${schoolName}`,
+            text: shareText,
+            url: pageUrl,
+          });
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            console.error("Unable to open device share menu:", error);
+            showMessage("Unable to open device share menu.", "error");
+          }
+        }
+      });
     }
 
     activitiesList.appendChild(activityCard);
